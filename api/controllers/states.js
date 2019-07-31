@@ -5,11 +5,9 @@ const States = require('../models/states');
 
 exports.getAllStates = (req,res,next)=>{
 
-    var selector = {"countryCode": req.params.countryCode};
-
-    var filter = {stateCode: 1, stateName:1};
-
-    States  .find(selector)
+    States  .find(
+            {"countryCode":   { "$regex": req.params.countryCode, $options: "i"}}
+            )
             .exec()
             .then(data=>{
                 if(data.length>0){

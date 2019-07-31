@@ -5,8 +5,12 @@ const Blocks = require('../models/blocks');
 
 exports.getBlocks = (req,res,next)=>{ 
     
-    Blocks  .find({"countryCode": req.params.countryCode,"stateCode":req.params.stateCode,
-                    "districtName":  req.params.districtName},{blockName: 1})
+    Blocks  .find(
+            {
+                "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
+                "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
+                "districtName"  :   { "$regex": req.params.districtName, $options: "i"}
+            },{blockName: 1})
             .exec()
             .then(data=>{
                 if(data.length>0){

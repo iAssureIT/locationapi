@@ -5,7 +5,12 @@ const Districts = require('../models/districts');
 
 exports.getDistricts = (req,res,next)=>{
     
-    Districts   .find({"countryCode": req.params.countryCode,"stateCode":req.params.stateCode},{districtName: 1})
+    Districts   .find(
+                {
+                    "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
+                    "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"}
+                },
+                {districtName: 1})
                 .exec()
                 .then(data=>{
                     if(data.length>0){

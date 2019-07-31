@@ -5,8 +5,13 @@ const Cities = require('../models/cities');
 
 exports.getCities = (req,res,next)=>{
     
-    Cities  .find({"countryCode": req.params.countryCode,"stateCode":req.params.stateCode,
-                    "districtName":req.params.districtName,"blockName":req.params.blockName},{cityName: 1,pincode:1})
+    Cities  .find(
+            {
+                "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
+                "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
+                "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
+                "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
+            },{cityName: 1,pincode:1})
             .exec()
             .then(data=>{             
                 if(data.length>0){    
