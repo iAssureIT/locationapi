@@ -30,3 +30,16 @@ POST: /create-new-property
 PATCH: /edit-property 
 GET: /proferty-profile/:ID 
 GET: /list-of-all-properties/:category
+
+
+
+
+
+
+db.districts.find( {}, { 'districtName': 1 } ).forEach(function(doc) {
+db.districts.update(
+   { _id: doc._id},
+   { $set : { 'districtName' : doc.districtName.toLowerCase() } },
+   { multi: true }
+)
+});

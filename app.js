@@ -8,7 +8,7 @@ const dbname = "locations";
 global.JWT_KEY = "secret";
 
 
-mongoose.connect('mongodb://127.0.0.1/'+dbname,{
+mongoose.connect('mongodb://localhost/'+dbname,{
 	useNewUrlParser: true
 })
 mongoose.promise = global.Promise;
@@ -44,7 +44,6 @@ app.use("/api/districts",DistrictUrl);
 app.use("/api/blocks",BlocksUrl);
 app.use("/api/cities",CitiesUrl);
 app.use("/api/areas",AreasUrl);
-
 
 app.use((req, res, next) => {
 	const error = new Error("Not found");

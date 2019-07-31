@@ -6,8 +6,7 @@ const Areas = require('../models/areas');
 exports.getAreas = (req,res,next)=>{
     
     Areas  .find({"countryCode": req.params.countryCode,  "stateCode":req.params.stateCode,
-                    "districtName":req.params.districtName, "blockName":req.params.blockName,
-                    "cityName": req.params.countryCode
+                    "districtName":req.params.districtName, "blockName":req.params.blockName
                     },{areaName: 1})
             .exec()
             .then(data=>{

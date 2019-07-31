@@ -6,7 +6,7 @@ const Blocks = require('../models/blocks');
 exports.getBlocks = (req,res,next)=>{ 
     
     Blocks  .find({"countryCode": req.params.countryCode,"stateCode":req.params.stateCode,
-                    "districtName":req.params.districtName},{blockName: 1})
+                    "districtName":  req.params.districtName},{blockName: 1})
             .exec()
             .then(data=>{
                 if(data.length>0){
