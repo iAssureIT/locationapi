@@ -29,21 +29,3 @@ exports.getCities = (req,res,next)=>{
 }
 
 
-exports.getAreaByPincode = (req,res,next)=>{ 
-    
-    Cities  .find({"pincode": req.params.pincode})
-            .exec()
-            .then(data=>{
-                if(data.length>0){
-                    res.status(200).json(data);
-                }else{
-                    res.status(200).json({"message" : 'Area not found for this '+ req.params.pincode +' Pincode'});
-                }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-}
