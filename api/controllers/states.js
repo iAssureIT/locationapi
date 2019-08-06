@@ -7,7 +7,7 @@ exports.getAllStates = (req,res,next)=>{
 
     States  .find(
             {"countryCode":   { "$regex": req.params.countryCode, $options: "i"}}
-            )
+            ).sort({ "stateName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){

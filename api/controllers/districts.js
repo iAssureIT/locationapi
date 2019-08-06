@@ -10,7 +10,9 @@ exports.getDistricts = (req,res,next)=>{
                     "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
                     "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"}
                 },
-                {districtName: 1})
+                {districtName: 1},
+
+                ).sort({ "districtName": 1 })
                 .exec()
                 .then(data=>{
                     if(data.length>0){

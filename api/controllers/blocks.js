@@ -10,7 +10,7 @@ exports.getBlocks = (req,res,next)=>{
                 "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"  :   { "$regex": req.params.districtName, $options: "i"}
-            },{blockName: 1})
+            },{blockName: 1}).sort({ "blockName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){

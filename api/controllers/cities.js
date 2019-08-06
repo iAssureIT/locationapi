@@ -11,7 +11,7 @@ exports.getCities = (req,res,next)=>{
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
-            },{cityName: 1,pincode:1})
+            },{cityName: 1,pincode:1}).sort({ "cityName": 1 })
             .exec()
             .then(data=>{             
                 if(data.length>0){    

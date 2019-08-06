@@ -11,7 +11,7 @@ exports.getAreas = (req,res,next)=>{
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
-            })
+            }).sort({ "areaName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
