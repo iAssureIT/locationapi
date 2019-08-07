@@ -47,3 +47,54 @@ exports.getAreaByPincode = (req,res,next)=>{
                 });
             });
 }
+
+
+exports.searchByAreaBlockDistrictString = (req,res,next)=>{ 
+    
+    Areas  .find(
+                { "$or": 
+                    [
+                    {"districtName" : {'$regex' : '^' + req.params.string , $options: "i"}},
+                    {"blockName"    : {'$regex' : '^' + req.params.string , $options: "i"}},
+                    {"areaName"     : {'$regex' : '^' + req.params.string , $options: "i"} } 
+                    ] 
+                }
+            )
+            .exec()
+            .then(data=>{
+                if(data.length>0){
+                    res.status(200).json(data);
+                }else{
+                    res.status(200).json({"message" : 'Area not found for this '+ req.params.pincode +' Pincode'});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+
+
+exports.areaDetails = (req,res,next)=>{ 
+    
+    Areas  .find(
+                    {"areaName"     : { "$regex": req.params.area, $options: "i"} }
+            )
+            .exec()
+            .then(data=>{
+                if(data.length>0){
+                    res.status(200).json(data);
+                }else{
+                    res.status(200).json({"message" : 'Area not found for this '+ req.params.pincode +' Pincode'});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+

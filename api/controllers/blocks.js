@@ -4,13 +4,15 @@ const async = require("async");
 const Blocks = require('../models/blocks');
 
 exports.getBlocks = (req,res,next)=>{ 
-    
+    console.log(req.params);
     Blocks  .find(
-            {
-                "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
-                "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
-                "districtName"  :   { "$regex": req.params.districtName, $options: "i"}
-            },{blockName: 1}).sort({ "blockName": 1 })
+                {                     
+                     "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"} ,
+                     "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"} ,
+                     "districtName"  :   { "$regex": req.params.districtName, $options: "i"} 
+   
+                }
+                ).sort({ "blockName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
@@ -28,3 +30,28 @@ exports.getBlocks = (req,res,next)=>{
 }
 
 
+exports.getBlocksByState = (req,res,next)=>{ 
+    console.log(req.params);
+    Blocks  .find(
+                {                     
+                     "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"} ,
+                     "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"} ,
+   
+                }
+                ).sort({ "blockName": 1 })
+            .exec()
+            .then(data=>{
+                console.log(data);
+                if(data.length>0){
+                    res.status(200).json(data);
+                }else{
+                    res.status(200).json({"message" : 'Block not found for this '+ req.params.stateCode +' State Code'});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
