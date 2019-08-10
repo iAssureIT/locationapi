@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SubAreaSchema = mongoose.Schema({
+const SocietiesSchema = mongoose.Schema({
 	_id			    : mongoose.Schema.Types.ObjectId, 
     countryCode     : String,
     stateCode       : String,
@@ -9,8 +9,9 @@ const SubAreaSchema = mongoose.Schema({
    	cityName		: String,
    	areaName		: String,
    	subareaName		: String,
+   	societyName 	: String,
     status          : String
 });
 
-module.exports = mongoose.model('subareas',SubAreaSchema);
+module.exports = mongoose.model('societies',SocietiesSchema);
 

@@ -39,6 +39,7 @@ const BlocksUrl 	= 	require("./api/routes/blocks");
 const CitiesUrl 	= 	require("./api/routes/cities");
 const AreasUrl 		= 	require("./api/routes/areas");
 const SubAreasUrl 		= 	require("./api/routes/subareas");
+const SocietiesUrl 		= 	require("./api/routes/societies");
 
 app.use("/api/states",StatesUrl);
 app.use("/api/districts",DistrictUrl);
@@ -46,6 +47,7 @@ app.use("/api/blocks",BlocksUrl);
 app.use("/api/cities",CitiesUrl);
 app.use("/api/areas",AreasUrl);
 app.use("/api/subareas",SubAreasUrl);
+app.use("/api/societies",SocietiesUrl);
 
 app.use((req, res, next) => {
 	const error = new Error("Not found");
