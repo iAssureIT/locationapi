@@ -26,14 +26,22 @@ exports.getCities = (req,res,next)=>{
                     error: err
                 });
             });
-}
+};
 
 exports.getCitiesByState = (req,res,next)=>{
-    
+
+// Remove these 2 lines after client confirmation. These are temporary lines.
+// These two lines are just to reduce the data coming in to website. 
+//                "districtName"  :  "Pune",
+//                "blockName"     :  "Haveli",
+        
+
         Cities  
         .find({
                 "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
+                "districtName"  :  "Pune",
+                "blockName"     :  "Haveli",
               },{districtName:1, blockName:1, cityName:1})
             .sort({"cityName": 1})
             .exec()
@@ -51,6 +59,6 @@ exports.getCitiesByState = (req,res,next)=>{
                     error: err
                 });
             });
-}
+};
 
 
