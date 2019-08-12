@@ -28,4 +28,28 @@ exports.getCities = (req,res,next)=>{
             });
 }
 
+exports.getCitiesByState = (req,res,next)=>{
+    
+        Cities  
+        .find({
+                "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
+                "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
+              },{districtName:1, blockName:1, cityName:1})
+            .sort({"cityName": 1})
+            .exec()
+            .then(data=>{             
+                if(data.length>0){    
+                    res.status(200).json(data);
+                }else{
+                    res.status(200).json({"message" : 'City not found for this state code: '+ req.params.stateCode });
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+
 
