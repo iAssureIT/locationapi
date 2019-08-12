@@ -97,15 +97,18 @@ exports.update_status = (req,res,next)=>{
 
 
 exports.searchSubAreas = (req,res,next)=>{
-    console.log(req.params);
-    SubAreas  .find({
+    console.log(req.params);;
+    var selector = {
                 $or : [
                     {"cityName"         :   { "$regex": /^req.params.cityName/, $options: "i"} },
                     {"areaName"         :   { "$regex": /^req.params.areaName/, $options: "i"} },
                     {"subareaName"      :   { "$regex": /^req.params.subareaName/, $options: "i"} },
                 ],
                 "status"           :   "approved"
-            })
+            };
+    console.log("selector = ", selector); 
+
+    SubAreas  .find(selector)
             .exec()
             .then(data=>{
                 if(data.length>0){
