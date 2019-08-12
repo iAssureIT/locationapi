@@ -100,15 +100,16 @@ exports.searchSubAreas = (req,res,next)=>{
     console.log(req.params);;
     var selector = {
                 $or : [
-                    {"cityName"         :   { "$regex": /^req.params.searchText/, $options: "i"} },
-                    {"areaName"         :   { "$regex": /^req.params.searchText/, $options: "i"} },
-                    {"subareaName"      :   { "$regex": /^req.params.searchText/, $options: "i"} },
+                    {"cityName"         :   { "$regex": req.params.searchText, $options: "i"} },
+                    {"areaName"         :   { "$regex": req.params.searchText, $options: "i"} },
+                    {"subareaName"      :   { "$regex": req.params.searchText, $options: "i"} },
                 ],
                 "status"           :   "approved"
             };
-    console.log("selector = ", selector); 
+    console.log("selector = ", JSON.stringify(selector)); 
 
-    SubAreas  .find(selector)
+    SubAreas.find(selector)
+            .sort({cityName:1,areaName:1,subareaName:1})
             .exec()
             .then(data=>{
                 if(data.length>0){
