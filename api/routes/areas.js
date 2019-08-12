@@ -3,7 +3,7 @@ const router 	= express.Router();
 
 const AreaController = require('../controllers/areas');
 
-router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName', AreaController.getAreas);
+router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName/:cityName', AreaController.getAreas);
 
 router.get('/get/list/:pincode', AreaController.getAreaByPincode);
 
