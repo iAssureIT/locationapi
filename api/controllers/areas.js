@@ -5,13 +5,14 @@ const Areas = require('../models/areas');
 
 exports.getAreas = (req,res,next)=>{
     
-    Areas  .find(
-            {
+    Areas  .find({
                 "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
-            }).sort({ "areaName": 1 })
+                "cityName"      :   { "$regex": req.params.cityName, $options: "i"}
+            })
+            .sort({ "areaName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
