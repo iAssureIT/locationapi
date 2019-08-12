@@ -38,10 +38,11 @@ exports.getCitiesByState = (req,res,next)=>{
             .sort({"cityName": 1})
             .exec()
             .then(data=>{             
-                if(data.length>0){    
+                if(data.length>0){
+                    console.log("getCitiesByState data = ", data);
                     res.status(200).json(data);
                 }else{
-                    res.status(200).json({"message" : 'City not found for this state code: '+ req.params.stateCode });
+                    res.status(403).json({"message" : 'City not found for this state code: '+ req.params.stateCode });
                 }
             })
             .catch(err =>{
