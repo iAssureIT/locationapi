@@ -40,6 +40,7 @@ exports.getsociety = (req,res,next)=>{
                 "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
                 "areaName"         :   { "$regex": req.params.areaName, $options: "i" },
                 "subareaName"      :   { "$regex": req.params.subareaName, $options: "i" }
+                "status"           :   "approved"
             }).sort({ "areaName": 1 })
             .exec()
             .then(data=>{

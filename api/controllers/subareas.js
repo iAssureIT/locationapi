@@ -36,7 +36,8 @@ exports.getSubAreas = (req,res,next)=>{
                 "districtName"     :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"        :   { "$regex": req.params.blockName, $options: "i"},
                 "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.params.areaName, $options: "i" }               
+                "areaName"         :   { "$regex": req.params.areaName, $options: "i" }  
+                "status"           :   "approved"
             })
             .sort({ "societyName": 1 })
             .exec()

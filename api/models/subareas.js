@@ -5,10 +5,11 @@ const SubAreaSchema = mongoose.Schema({
     countryCode     : String,
     stateCode       : String,
     districtName    : String,
-   	blockName		: String,
-   	cityName		: String,
-   	areaName		: String,
-   	subareaName		: String,
+   	blockName				: String,
+   	cityName				: String,
+   	areaName				: String,
+   	subareaName			: String,
+    pincode         : String,   	
     status          : String
 });
 

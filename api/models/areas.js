@@ -5,9 +5,9 @@ const AreaSchema = mongoose.Schema({
     countryCode     : String,
     stateName       : String,
     districtName    : String,
-   	blockName		: String,
-   	cityName		: String,
-   	areaName		: String,
+   	blockName				: String,
+   	cityName				: String,
+   	areaName				: String,
     pincode         : String
 });
 
