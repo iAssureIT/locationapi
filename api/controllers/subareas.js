@@ -30,15 +30,15 @@ exports.insertSubarea = (req,res,next)=>{
 };
 
 exports.getSubAreas = (req,res,next)=>{
-    
+    console.log(req.params);
     SubAreas  .find(
             {
                 "stateCode"        :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"     :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"        :   { "$regex": req.params.blockName, $options: "i"},
                 "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.params.areaName, $options: "i" },
-                "subareaName"         :   { "$regex": req.params.subareaName, $options: "i" }
+                "areaName"         :   { "$regex": req.params.areaName, $options: "i" }
+               
             }).sort({ "societyName": 1 })
             .exec()
             .then(data=>{
