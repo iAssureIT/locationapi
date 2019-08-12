@@ -39,7 +39,7 @@ exports.getsociety = (req,res,next)=>{
                 "blockName"        :   { "$regex": req.params.blockName, $options: "i"},
                 "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
                 "areaName"         :   { "$regex": req.params.areaName, $options: "i" },
-                "subareaName"      :   { "$regex": req.params.subareaName, $options: "i" }
+                "subareaName"      :   { "$regex": req.params.subareaName, $options: "i" },
                 "status"           :   "approved"
             }).sort({ "areaName": 1 })
             .exec()
