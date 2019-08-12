@@ -7,6 +7,8 @@ router.post('/post/', SubAreaController.insertSubarea);
 
 router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName/:cityName/:areaName', SubAreaController.getSubAreas);
 
+router.get('/get/searchresults/:searchText', SubAreaController.searchSubAreas);
+
 router.patch('/patch/', SubAreaController.update_status);
 
 module.exports = router;

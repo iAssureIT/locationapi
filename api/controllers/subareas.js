@@ -100,9 +100,9 @@ exports.searchSubAreas = (req,res,next)=>{
     console.log(req.params);;
     var selector = {
                 $or : [
-                    {"cityName"         :   { "$regex": /^req.params.cityName/, $options: "i"} },
-                    {"areaName"         :   { "$regex": /^req.params.areaName/, $options: "i"} },
-                    {"subareaName"      :   { "$regex": /^req.params.subareaName/, $options: "i"} },
+                    {"cityName"         :   { "$regex": /^req.params.searchText/, $options: "i"} },
+                    {"areaName"         :   { "$regex": /^req.params.searchText/, $options: "i"} },
+                    {"subareaName"      :   { "$regex": /^req.params.searchText/, $options: "i"} },
                 ],
                 "status"           :   "approved"
             };
