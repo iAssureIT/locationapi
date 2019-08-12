@@ -9,7 +9,7 @@ exports.getAreas = (req,res,next)=>{
                 "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
                 "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
-                "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
+                "blockName"     :   { "$regex": req.params.blockName, $options: "i"},
                 "cityName"      :   { "$regex": req.params.cityName, $options: "i"}
             })
             .sort({ "areaName": 1 })
