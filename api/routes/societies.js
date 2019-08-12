@@ -5,7 +5,7 @@ const SocietiesController = require('../controllers/societies');
 
 router.post('/post/', SocietiesController.insertsociety);
 
-router.get('/get/list/:subareaName/:areaName/:cityName/:blockName/:districtName/:stateCode', SocietiesController.getsociety);
+router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName/:cityName/:areaName/:subareaName', SocietiesController.getsociety);
 
 router.patch('/patch/', SocietiesController.update_status);
 

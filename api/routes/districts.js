@@ -3,7 +3,7 @@ const router 	= express.Router();
 
 const DistrictController = require('../controllers/districts');
 
-router.get('/get/list/:stateCode/:countryCode', DistrictController.getDistricts);
+router.get('/get/list/:countryCode/:stateCode', DistrictController.getDistricts);
 
 
 module.exports = router;

@@ -37,15 +37,14 @@ exports.getSubAreas = (req,res,next)=>{
                 "districtName"     :   { "$regex": req.params.districtName, $options: "i"},
                 "blockName"        :   { "$regex": req.params.blockName, $options: "i"},
                 "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.params.areaName, $options: "i" }
-               
+                "areaName"         :   { "$regex": req.params.areaName, $options: "i" }               
             }).sort({ "societyName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
                     res.status(200).json(data);
                 }else{
-                    res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+                    res.status(200).json({"message" : 'SubAreas not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
                 }
             })
             .catch(err =>{

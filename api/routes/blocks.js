@@ -3,8 +3,8 @@ const router 	= express.Router();
 
 const BlocksController = require('../controllers/blocks');
 
-router.get('/get/list/:districtName/:stateCode/:countryCode', BlocksController.getBlocks);
+router.get('/get/list/:countryCode/:stateCode/:districtName', BlocksController.getBlocks);
 
-router.get('/get/BlocksByState/:stateCode/:countryCode', BlocksController.getBlocksByState);
+router.get('/get/BlocksByState/:countryCode/:stateCode', BlocksController.getBlocksByState);
 
 module.exports = router;  
