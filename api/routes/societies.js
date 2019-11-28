@@ -9,4 +9,7 @@ router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName/:cityName
 
 router.patch('/patch/', SocietiesController.update_status);
 
+router.get('/get/searchresults/:searchText', SocietiesController.searchSocieties);
+
+
 module.exports = router;
