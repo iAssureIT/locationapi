@@ -47,7 +47,7 @@ exports.getCitiesByState = (req,res,next)=>{
             .exec()
             .then(data=>{             
                 if(data.length>0){
-                    console.log("getCitiesByState data = ", data);
+                    // console.log("getCitiesByState data = ", data);
                     res.status(200).json(data);
                 }else{
                     res.status(403).json({"message" : 'City not found for this state code: '+ req.params.stateCode });

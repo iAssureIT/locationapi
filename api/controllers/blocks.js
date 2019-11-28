@@ -4,7 +4,7 @@ const async = require("async");
 const Blocks = require('../models/blocks');
 
 exports.getBlocks = (req,res,next)=>{ 
-    console.log(req.params);
+    // console.log(req.params);
     Blocks  .find(
                 {                     
                      "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"} ,
@@ -31,7 +31,7 @@ exports.getBlocks = (req,res,next)=>{
 
 
 exports.getBlocksByState = (req,res,next)=>{ 
-    console.log(req.params);
+    // console.log(req.params);
     Blocks  .find(
                 {                     
                      "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"} ,

@@ -98,7 +98,7 @@ exports.update_status = (req,res,next)=>{
 
 
 exports.searchSocieties = (req,res,next)=>{
-    console.log(req.params);;
+    console.log(req.params);
     var selector = {
                 $or : [
                     {"cityName"         :   { "$regex": req.params.searchText, $options: "i"} },
@@ -108,7 +108,7 @@ exports.searchSocieties = (req,res,next)=>{
                 ],
                 "status"           :   "approved"
             };
-    console.log("selector = ", JSON.stringify(selector)); 
+    // console.log("selector = ", JSON.stringify(selector)); 
 
     Societies.find(selector)
             .sort({cityName:1,areaName:1,subareaName:1, societyName:1})

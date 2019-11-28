@@ -30,7 +30,7 @@ exports.insertSubarea = (req,res,next)=>{
 };
 
 exports.getSubAreas = (req,res,next)=>{
-    console.log(req.params);
+    // console.log(req.params);
         SubAreas  
             .find({
                 "stateCode"        :   { "$regex": req.params.stateCode, $options: "i"},
@@ -44,7 +44,7 @@ exports.getSubAreas = (req,res,next)=>{
             .exec()
             .then(data=>{
                 if(data.length>0){
-                    console.log("getSubAreas data = ", data);
+                    // console.log("getSubAreas data = ", data);
                     res.status(200).json(data);
                 }else{
                     res.status(200).json({"message" : 'SubAreas not found for '+ req.params.cityName +' district, '+req.params.areaName+' block',});
@@ -97,7 +97,7 @@ exports.update_status = (req,res,next)=>{
 
 
 exports.searchSubAreas = (req,res,next)=>{
-    console.log(req.params);;
+    // console.log(req.params);;
     var selector = {
                 $or : [
                     {"cityName"         :   { "$regex": req.params.searchText, $options: "i"} },
@@ -106,7 +106,7 @@ exports.searchSubAreas = (req,res,next)=>{
                 ],
                 "status"           :   "approved"
             };
-    console.log("selector = ", JSON.stringify(selector)); 
+    // console.log("selector = ", JSON.stringify(selector)); 
 
     SubAreas.find(selector)
             .sort({cityName:1,areaName:1,subareaName:1})
