@@ -56,7 +56,43 @@ exports.getsociety = (req,res,next)=>{
                     error: err
                 });
             });
-}
+};
+
+
+
+exports.searchSocieties = (req,res,next)=>{
+    console.log(req.params);
+    var selector = {
+                $or : [
+                    {"cityName"         :   { "$regex": req.params.searchText, $options: "i"} },
+                    {"areaName"         :   { "$regex": req.params.searchText, $options: "i"} },
+                    {"subareaName"      :   { "$regex": req.params.searchText, $options: "i"} },
+                    {"societyName"      :   { "$regex": req.params.searchText, $options: "i"} },
+                ],
+                "status"           :   "approved"
+            };
+    // console.log("selector = ", JSON.stringify(selector)); 
+
+    Societies.find(selector)
+            .sort({cityName:1,areaName:1,subareaName:1, societyName:1})
+            .exec()
+            .then(data=>{
+                if(data.length>0){
+                    console.log("getSocieties data = ", data);
+                    res.status(200).json(data);
+                }else{
+                    res.status(200).json({"message" : 'Search Text not found in City, Area, Subarea & Society'});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+};
+
+
 
 
 exports.update_status = (req,res,next)=>{
@@ -94,39 +130,4 @@ exports.update_status = (req,res,next)=>{
             });
         });
 };
-
-
-
-exports.searchSocieties = (req,res,next)=>{
-    console.log(req.params);
-    var selector = {
-                $or : [
-                    {"cityName"         :   { "$regex": req.params.searchText, $options: "i"} },
-                    {"areaName"         :   { "$regex": req.params.searchText, $options: "i"} },
-                    {"subareaName"      :   { "$regex": req.params.searchText, $options: "i"} },
-                    {"societyName"      :   { "$regex": req.params.searchText, $options: "i"} },
-                ],
-                "status"           :   "approved"
-            };
-    // console.log("selector = ", JSON.stringify(selector)); 
-
-    Societies.find(selector)
-            .sort({cityName:1,areaName:1,subareaName:1, societyName:1})
-            .exec()
-            .then(data=>{
-                if(data.length>0){
-                    console.log("getSocieties data = ", data);
-                    res.status(200).json(data);
-                }else{
-                    res.status(200).json({"message" : 'Search Text not found in City, Area, Subarea & Society'});
-                }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-}
-
 

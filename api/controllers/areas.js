@@ -14,9 +14,10 @@ exports.getAreas = (req,res,next)=>{
             })
             .sort({ "areaName": 1 })
             .exec()
-            .then(data=>{
-                if(data.length>0){
-                    res.status(200).json(data);
+            .then(areas=>{
+                if(areas.length>0){
+                    const uniqueAreas = [...new Set(areas)];
+                    res.status(200).json(uniqueAreas);
                 }else{
                     res.status(200).json({"message" : 'Area not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
                 }
