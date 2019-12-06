@@ -16,9 +16,7 @@ exports.getAreas = (req,res,next)=>{
             .exec()
             .then(areas=>{
                 if(areas.length>0){
-                    const uniqueAreas = [...new Set(areas.map(item => item.areaName))];
-                    console.log("uniqueAreas=>",uniqueAreas);
-                    res.status(200).json(uniqueAreas);
+                    res.status(200).json(areas);
                 }else{
                     res.status(200).json({"message" : 'Area not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
                 }
