@@ -16,7 +16,7 @@ exports.getAreas = (req,res,next)=>{
             .exec()
             .then(areas=>{
                 if(areas.length>0){
-                    const uniqueAreas = [...new Set(areas)];
+                    const uniqueAreas = [...new Set(areas.map(item => item.areaName))];
                     console.log("uniqueAreas=>",uniqueAreas);
                     res.status(200).json(uniqueAreas);
                 }else{
