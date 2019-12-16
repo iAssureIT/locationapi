@@ -222,5 +222,3 @@ exports.searchSocieties = (req,res,next)=>{
             });
 }
 
-
->>>>>>> Stashed changes
