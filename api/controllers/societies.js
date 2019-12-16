@@ -97,15 +97,7 @@ exports.searchSocieties = (req,res,next)=>{
 exports.getUnapprovedSociety = (req,res,next)=>{
     
     Societies  .find(
-            {
-                "stateCode"        :   { "$regex": req.params.stateCode, $options: "i"},
-                "districtName"     :   { "$regex": req.params.districtName, $options: "i"},
-                "blockName"        :   { "$regex": req.params.blockName, $options: "i"},
-                "cityName"         :   { "$regex": req.params.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.params.areaName, $options: "i" },
-                "subareaName"      :   { "$regex": req.params.subareaName, $options: "i" },
-                "status"           :   {$ne: "approved"}
-            }).sort({ "areaName": 1 })
+            { "status"           :   {$ne: "approved"} }).sort({ "areaName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
