@@ -5,11 +5,11 @@ const SocietiesSchema = mongoose.Schema({
     countryCode     : String,
     stateCode       : String,
     districtName    : String,
-   	blockName		: String,
-   	cityName		: String,
-   	areaName		: String,
-   	subareaName		: String,
-   	societyName 	: String,
+   	blockName		    : String,
+   	cityName		    : String,
+   	areaName		    : String,
+   	subareaName		  : String,
+   	societyName 	  : String,
     status          : String
 });
 

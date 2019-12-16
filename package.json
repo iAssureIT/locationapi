@@ -24,7 +24,8 @@
     "mongodb-schema": "^8.2.4",
     "mongoose": "^5.5.15",
     "morgan": "^1.9.1",
-    "plivo": "^4.1.2"
+    "plivo": "^4.1.2",
+    "underscore": "^1.9.1"
   },
   "proxy": "http://localhost:5006"
 }
