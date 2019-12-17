@@ -2,6 +2,7 @@ const mongoose	= require("mongoose");
 const async = require("async");
 
 const Societies = require('../models/societies');
+const SubAreas = require('../models/subareas');
 
 exports.insertsociety = (req,res,next)=>{ 
     const society = new Societies({
@@ -157,7 +158,8 @@ exports.update_status = (req,res,next)=>{
         .findOne({"_id"        :   req.body.societies_id})
         .then((societyDetails)=>{
             var oldSubareaName = societyDetails.subareaName; 
-
+            console.log("oldSubareaName=>",oldSubareaName);
+            
             Societies.updateOne(
                     {"_id"        :   req.body.societies_id,},  
                     {
@@ -172,7 +174,7 @@ exports.update_status = (req,res,next)=>{
                 .then(societyData=>{
                     if(societyData.nModified == 1){
                         //Now Modify the SubArea Name also
-                        Subarea.updateOne(
+                        SubAreas.updateOne(
                             {"subareaName" : oldSubareaName},  
                             {
                                 $set:  { 
