@@ -114,10 +114,46 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             });
 }
 
+// exports.update_status = (req,res,next)=>{
+//     Societies.updateOne(
+//             {
+//                 "stateCode"        :   { "$regex": req.body.stateCode, $options: "i"},
+//                 "districtName"     :   { "$regex": req.body.districtName, $options: "i"},
+//                 "blockName"        :   { "$regex": req.body.blockName, $options: "i"},
+//                 "cityName"         :   { "$regex": req.body.cityName, $options: "i"},
+//                 "areaName"         :   { "$regex": req.body.areaName, $options: "i" },
+//                 "subareaName"      :   { "$regex": req.body.subareaName, $options: "i" },
+//                 "societyName"      :   { "$regex": req.body.societyName, $options: "i" }
+
+//             },  
+//             {
+//                 $set:  { 'status' : req.body.status }
+//             }
+//         )
+//         .exec()
+//         .then(data=>{
+//             if(data.nModified == 1){
+//                 res.status(200).json({
+//                     "message": "Society is Updated Successfully."
+//                 });
+//             }else{
+//                 res.status(401).json({
+//                     "message": "Society Not Found"
+//                 });
+//             }
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
+
 exports.update_status = (req,res,next)=>{
     Societies.updateOne(
             {
-                "_id"      :  req.body.locationId,
+                "_id"        :   req.body.locationId,
             },  
             {
                 $set:  { 'status' : req.body.status }
@@ -146,14 +182,10 @@ exports.update_status = (req,res,next)=>{
 exports.updateSociety = (req,res,next)=>{
     Societies.updateOne(
             {
-                "stateCode"        :   { "$regex": req.body.stateCode, $options: "i"},
-                "districtName"     :   { "$regex": req.body.districtName, $options: "i"},
-                "blockName"        :   { "$regex": req.body.blockName, $options: "i"},
-                "cityName"         :   { "$regex": req.body.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.body.areaName, $options: "i" },
-            },  
+                "_id"        :   req.body.locationId,
+            },   
             {
-                $set:  { 'subareaName' : req.body.subareaName, 'societyName': req.body.societyName }
+                $set:  { 'societyName': req.body.societyName }
             }
         )
         .exec()

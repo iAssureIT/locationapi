@@ -11,4 +11,6 @@ router.get('/get/searchresults/:searchText', SubAreaController.searchSubAreas);
 
 router.patch('/patch/', SubAreaController.update_status);
 
+router.patch('/patch/updateSubarea', SubAreaController.updateSubarea);
+
 module.exports = router;

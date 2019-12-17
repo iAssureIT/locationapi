@@ -127,3 +127,33 @@ exports.searchSubAreas = (req,res,next)=>{
             });
 }
 
+
+exports.updateSubarea = (req,res,next)=>{
+    SubAreas.updateOne(
+            {
+                "_id"        :   req.body.locationId,
+            },   
+            {
+                $set:  { 'subareaName' : req.body.subareaName }
+            }
+        )
+        .exec()
+        .then(data=>{
+            if(data.nModified == 1){
+                res.status(200).json({
+                    "message": "subarea is Updated Successfully."
+                });
+            }else{
+                res.status(401).json({
+                    "message": "subarea Not Found"
+                });
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
