@@ -11,6 +11,8 @@ router.get('/get/getUnapprovedSociety', SocietiesController.getUnapprovedSociety
 
 router.patch('/patch/', SocietiesController.update_status);
 
+router.patch('/patch/rejectstatus', SocietiesController.reject_status);
+
 router.patch('/patch/updateSociety', SocietiesController.updateSociety);
 
 router.get('/get/searchresults/:searchText', SocietiesController.searchSocieties);

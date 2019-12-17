@@ -215,6 +215,31 @@ exports.update_status = (req,res,next)=>{
         });
 };
 
+exports.reject_status = (req,res,next)=>{
+    console.log("Req = ", req.body);
+    Societies.updateOne(
+            {"_id"        :   req.body.societies_id},  
+            {
+                $set:  {  
+                    'status'      : req.body.status 
+                }
+            }
+        )
+        .exec()
+        .then((societiesData)=>{
+                res.status(200).json({
+                    "message": "Society rejected."
+                });
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                message: "Society updateone has some Issue",
+                error: err
+            });
+        });
+};
+
 exports.updateSociety = (req,res,next)=>{
     Societies.updateOne(
             {
