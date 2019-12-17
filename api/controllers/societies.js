@@ -153,33 +153,73 @@ exports.getUnapprovedSociety = (req,res,next)=>{
 exports.update_status = (req,res,next)=>{
     console.log("Req = ", req.body);
 
-    Societies.updateOne(
-            {
-                "_id"        :   req.body.societies_id,
-            },  
-            {
-                $set:  { 
-                    'subareaName' : req.body.subareaName,  
-                    'societyName' : req.body.societyName, 
-                    'status' : req.body.status 
-                }
-            }
-        )
-        .exec()
-        .then(data=>{
-            if(data.nModified == 1){
-                res.status(200).json({
-                    "message": "Society is Updated Successfully."
+    Societies
+        .findOne({"_id"        :   req.body.societies_id})
+        .then((societyDetails)=>{
+            var oldSubareaName = societyDetails.subareaName; 
+
+            Societies.updateOne(
+                    {"_id"        :   req.body.societies_id,},  
+                    {
+                        $set:  { 
+                            'subareaName' : req.body.subareaName,  
+                            'societyName' : req.body.societyName, 
+                            'status'      : req.body.status 
+                        }
+                    }
+                )
+                .exec()
+                .then(societyData=>{
+                    if(societyData.nModified == 1){
+                        //Now Modify the SubArea Name also
+                        Subarea.updateOne(
+                            {"subareaName" : oldSubareaName},  
+                            {
+                                $set:  { 
+                                    'subareaName' : req.body.subareaName,  
+                                    'status'      : req.body.status 
+                                }
+                            }                
+                        )
+                        .then((subAreaData)=>{
+                            if(subAreaData.nModified == 1){
+                                res.status(200).json({
+                                    "message": "Society & SubArea are Updated Successfully."
+                                });
+                            }else{
+                                res.status(401).json({
+                                    "message": "SubArea Not Found"
+                                });
+                            }
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                message: "Subarea Update has some issue",
+                                error: err
+                            });
+                        });
+
+                    }else{
+                        res.status(401).json({
+                            "message": "Society Not Found"
+                        });
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        message: "Society Update has some issue.",
+                        error: err
+                    });
                 });
-            }else{
-                res.status(401).json({
-                    "message": "Society Not Found"
-                });
-            }
+
+
         })
         .catch(err =>{
             console.log(err);
             res.status(500).json({
+                message: "Society FindOne has some Issue",
                 error: err
             });
         });
