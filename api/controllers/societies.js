@@ -98,7 +98,7 @@ exports.searchSocieties = (req,res,next)=>{
 exports.getUnapprovedSociety = (req,res,next)=>{
     
     Societies  .find(
-            { "status"           :   {$ne: "approved"} }).sort({ "areaName": 1 })
+            { "status"           :   {$eq: "new"} }).sort({ "areaName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
@@ -159,7 +159,7 @@ exports.update_status = (req,res,next)=>{
         .then((societyDetails)=>{
             var oldSubareaName = societyDetails.subareaName; 
             console.log("oldSubareaName=>",oldSubareaName);
-            
+
             Societies.updateOne(
                     {"_id"        :   req.body.societies_id,},  
                     {
