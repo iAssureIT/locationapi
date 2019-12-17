@@ -117,14 +117,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
 exports.update_status = (req,res,next)=>{
     Societies.updateOne(
             {
-                "stateCode"        :   { "$regex": req.body.stateCode, $options: "i"},
-                "districtName"     :   { "$regex": req.body.districtName, $options: "i"},
-                "blockName"        :   { "$regex": req.body.blockName, $options: "i"},
-                "cityName"         :   { "$regex": req.body.cityName, $options: "i"},
-                "areaName"         :   { "$regex": req.body.areaName, $options: "i" },
-                "subareaName"      :   { "$regex": req.body.subareaName, $options: "i" },
-                "societyName"      :   { "$regex": req.body.societyName, $options: "i" }
-
+                "_id"      :  req.body.locationId,
             },  
             {
                 $set:  { 'status' : req.body.status }
