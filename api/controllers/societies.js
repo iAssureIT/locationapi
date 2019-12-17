@@ -180,7 +180,7 @@ exports.update_status = (req,res,next)=>{
                 .then(societyData=>{
                     if(societyData.nModified == 1){
                         //Now Modify the SubArea Name also
-                        if(oldSubareaName === req.body.subareaName){
+                        if(oldSubareaName !== req.body.subareaName){
                             SubAreas.updateOne(
                             {"subareaName" : oldSubareaName},  
                             {
