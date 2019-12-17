@@ -160,6 +160,8 @@ exports.update_status = (req,res,next)=>{
             var oldSubareaName = societyDetails.subareaName; 
             console.log("oldSubareaName=>",oldSubareaName);
 
+            if(oldSubareaName === req.body.subareaName){
+                
             Societies.updateOne(
                     {"_id"        :   req.body.societies_id,},  
                     {
@@ -197,7 +199,7 @@ exports.update_status = (req,res,next)=>{
                         .catch(err =>{
                             console.log(err);
                             res.status(500).json({
-                                message: "Subarea Update has some issue",
+                                "message": "Subarea Update has some issue",
                                 error: err
                             });
                         });
@@ -215,6 +217,8 @@ exports.update_status = (req,res,next)=>{
                         error: err
                     });
                 });
+            }
+
 
 
         })
