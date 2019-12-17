@@ -151,12 +151,18 @@ exports.getUnapprovedSociety = (req,res,next)=>{
 // };
 
 exports.update_status = (req,res,next)=>{
+    console.log("Req = ", req.body);
+
     Societies.updateOne(
             {
-                "_id"        :   req.body.locationId,
+                "_id"        :   req.body.societies_id,
             },  
             {
-                $set:  { 'status' : req.body.status }
+                $set:  { 
+                    'status' : req.body.subareaName,  
+                    'status' : req.body.societyName, 
+                    'status' : req.body.status 
+                }
             }
         )
         .exec()
