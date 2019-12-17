@@ -98,7 +98,7 @@ exports.searchSocieties = (req,res,next)=>{
 exports.getUnapprovedSociety = (req,res,next)=>{
     
     Societies  .find(
-            { "status"           :   {$eq: "new"} }).sort({ "areaName": 1 })
+            {"status" : "new"}).sort({ "areaName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
