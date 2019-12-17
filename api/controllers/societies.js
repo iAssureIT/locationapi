@@ -155,18 +155,11 @@ exports.update_status = (req,res,next)=>{
     console.log("Req = ", req.body);
 
     Societies
-        .findOne({"_id"  : req.body.societies_id})
+        .findOne({"_id"        :   req.body.societies_id})
         .then((societyDetails)=>{
             var oldSubareaName = societyDetails.subareaName; 
-            var oldSocietyName = societyDetails.societyName; 
             console.log("oldSubareaName=>",oldSubareaName);
-
-            // if(oldSubareaName === req.body.subareaName){
-
-           
-            // }
-            if(oldSocietyName !== req.body.societyName){
-                Societies.updateOne(
+            Societies.updateOne(
                     {"_id"        :   req.body.societies_id,},  
                     {
                         $set:  { 
@@ -178,47 +171,30 @@ exports.update_status = (req,res,next)=>{
                 )
                 .exec()
                 .then(societyData=>{
-                    if(societyData.nModified == 1){
                         //Now Modify the SubArea Name also
-                        if(oldSubareaName !== req.body.subareaName){
-                            SubAreas.updateOne(
+                        SubAreas.updateOne(
                             {"subareaName" : oldSubareaName},  
                             {
                                 $set:  { 
                                     'subareaName' : req.body.subareaName,  
                                     'status'      : req.body.status 
                                 }
-                            })
-                            .then((subAreaData)=>{
-                                if(subAreaData.nModified == 1){
-                                    res.status(200).json({
-                                        "message": "Society & SubArea are Updated Successfully."
-                                    });
-                                }else{
-                                    res.status(401).json({
-                                        "message": "SubArea Not Found"
-                                    });
-                                }
-                            })
-                            .catch(err =>{
-                                console.log(err);
-                                res.status(500).json({
-                                    "message": "Subarea Update has some issue",
-                                    error: err
+                            }                
+                        )
+                        .then((subAreaData)=>{
+                                res.status(200).json({
+                                    "message": "Society & SubArea are Updated Successfully."
                                 });
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                "message": "Subarea Update has some issue",
+                                error: err
                             });
-                                
-                        }else{
-                            res.status(200).json({
-                                "message": "SubArea is updated Successfully."
-                            });
-                        }
-                        
-                    }else{
-                        res.status(401).json({
-                            "message": "Society Not Found"
                         });
-                    }
+
+                    
                 })
                 .catch(err =>{
                     console.log(err);
@@ -227,12 +203,8 @@ exports.update_status = (req,res,next)=>{
                         error: err
                     });
                 });
-           
-            }else{
-                res.status(200).json({
-                    "message": "Society is Updated Successfully."
-                });
-            }
+
+
         })
         .catch(err =>{
             console.log(err);
@@ -247,8 +219,8 @@ exports.updateSociety = (req,res,next)=>{
     Societies.updateOne(
             {
                 "_id"        :   req.body.locationId,
-            }, 
-            {  
+            },   
+            {
                 $set:  { 'societyName': req.body.societyName }
             }
         )
