@@ -159,8 +159,8 @@ exports.update_status = (req,res,next)=>{
             },  
             {
                 $set:  { 
-                    'status' : req.body.subareaName,  
-                    'status' : req.body.societyName, 
+                    'subareaName' : req.body.subareaName,  
+                    'societyName' : req.body.societyName, 
                     'status' : req.body.status 
                 }
             }
