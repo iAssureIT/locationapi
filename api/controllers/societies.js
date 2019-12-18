@@ -104,29 +104,30 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                 if(data.length>0){
                     for (var i=0; i<data.length; i++) {
                         console.log("data",data[i]);
-                        var formValues = {
-                            societyName : data[i].societyName,
-                            subareaName : data[i].subareaName,
+                        if(data && data.length > 0){
+                            const formValues = {
+                                societyName : data[i].societyName,
+                                subareaName : data[i].subareaName,
+                            } 
                         }
+                       
                         console.log("formValues",formValues);
-                        if(formValues.societyName && formValues.subareaName){
-                            axios({
-                                method: 'post',
-                                url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
-                              })        
-                            .then((propertyList) => {
-                                console.log("propertyList",propertyList.data);
-                                var properties = {
-                                    "propertyList" : propertyList.data,
-                                }
-                                if(properties.propertyList){
-                                    data[i].push(properties);
-                                }
-                            })
-                            .catch((error)=>{
-                               console.log("error=>",error);
-                            });
-                        }    
+                        axios({
+                            method: 'post',
+                            url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
+                          })        
+                        .then((propertyList) => {
+                            console.log("propertyList",propertyList.data);
+                            var properties = {
+                                "propertyList" : propertyList.data,
+                            }
+                            if(properties.propertyList){
+                                data[i].push(properties);
+                            }
+                        })
+                        .catch((error)=>{
+                           console.log("error=>",error);
+                        });
                     }
                     if(i >= data.length){
                         res.status(200).json(data);
