@@ -3,7 +3,7 @@ const async = require("async");
 
 const Societies = require('../models/societies');
 const SubAreas = require('../models/subareas');
-
+const axios    = require('axios')
 exports.insertsociety = (req,res,next)=>{ 
     const society = new Societies({
         _id             : new mongoose.Types.ObjectId(),
@@ -102,7 +102,30 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             .exec()
             .then(data=>{
                 if(data.length>0){
-                    res.status(200).json(data);
+                    for (var i=0; i<data.length; i++) {
+                        var formValues = {
+                            societyName : data[i].societyName,
+                            subareaName : data[i].subareaName,
+                        }
+                        axios({
+                            method: 'post',
+                            url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
+                          })        
+                        .then((propertyList) => {
+                            console.log("propertyList"),propertyList;
+                            var properties = {
+                                "propertyList" : propertyList.data,
+                            }
+                            data[i].push(properties);
+                        })
+                        .catch((error)=>{
+                           console.log("error=>",error);
+                        });
+                    }
+                    if(i >= data.length){
+                        res.status(200).json(data);
+                    }
+
                 }else{
                     res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
                 }
@@ -115,41 +138,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             });
 }
 
-// exports.update_status = (req,res,next)=>{
-//     Societies.updateOne(
-//             {
-//                 "stateCode"        :   { "$regex": req.body.stateCode, $options: "i"},
-//                 "districtName"     :   { "$regex": req.body.districtName, $options: "i"},
-//                 "blockName"        :   { "$regex": req.body.blockName, $options: "i"},
-//                 "cityName"         :   { "$regex": req.body.cityName, $options: "i"},
-//                 "areaName"         :   { "$regex": req.body.areaName, $options: "i" },
-//                 "subareaName"      :   { "$regex": req.body.subareaName, $options: "i" },
-//                 "societyName"      :   { "$regex": req.body.societyName, $options: "i" }
 
-//             },  
-//             {
-//                 $set:  { 'status' : req.body.status }
-//             }
-//         )
-//         .exec()
-//         .then(data=>{
-//             if(data.nModified == 1){
-//                 res.status(200).json({
-//                     "message": "Society is Updated Successfully."
-//                 });
-//             }else{
-//                 res.status(401).json({
-//                     "message": "Society Not Found"
-//                 });
-//             }
-//         })
-//         .catch(err =>{
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// };
 
 exports.update_status = (req,res,next)=>{
     console.log("Req = ", req.body);
