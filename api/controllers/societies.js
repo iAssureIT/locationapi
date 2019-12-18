@@ -112,11 +112,13 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
                           })        
                         .then((propertyList) => {
-                            console.log("propertyList"),propertyList;
+                            console.log("propertyList",propertyList);
                             var properties = {
                                 "propertyList" : propertyList.data,
                             }
-                            data[i].push(properties);
+                            if(properties.propertyList){
+                                data[i].push(properties);
+                            }
                         })
                         .catch((error)=>{
                            console.log("error=>",error);
