@@ -109,7 +109,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             subareaName : data[i].subareaName,
                         }
                         console.log("formValues",formValues);
-                        if(formValues.societyName && formValues.subareaName)
+                        if(formValues.societyName && formValues.subareaName){
                             axios({
                                 method: 'post',
                                 url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
