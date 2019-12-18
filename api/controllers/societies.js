@@ -103,6 +103,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             .then(data=>{
                 if(data.length>0){
                     for (var i=0; i<data.length; i++) {
+                        console.log("data",data[i]);
                         var formValues = {
                             societyName : data[i].societyName,
                             subareaName : data[i].subareaName,
@@ -112,7 +113,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
                           })        
                         .then((propertyList) => {
-                            console.log("propertyList",propertyList);
+                            console.log("propertyList",propertyList.data);
                             var properties = {
                                 "propertyList" : propertyList.data,
                             }
