@@ -104,12 +104,10 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                 if(data.length>0){
                     for (var i=0; i<data.length; i++) {
                         console.log("data",data[i]);
-                        if(data && data.length > 0){
                             const formValues = {
                                 societyName : data[i].societyName,
                                 subareaName : data[i].subareaName,
                             } 
-                        }
                        
                         console.log("formValues",formValues);
                         axios({
