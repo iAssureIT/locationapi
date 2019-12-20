@@ -116,7 +116,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                                 "propertyList" : propertyList.data,
                             }
                             console.log("properties",properties);
-                            if(properties.propertyList!==""){
+                            if(properties.propertyList && properties.propertyList.length>0){
                                 unApprovedSocieties[i].push(properties);
                             }
                             
