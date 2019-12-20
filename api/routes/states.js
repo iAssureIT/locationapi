@@ -17,4 +17,6 @@ router.get('/get/filedetails/:fileName',StatesController.filedetails);
 
 router.delete('/file/delete/:fileName',StatesController.delete_file);
 
+router.post('/post/addState',StatesController.addState);
+
 module.exports = router;

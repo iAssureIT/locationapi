@@ -7,4 +7,6 @@ router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName', CitiesC
 
 router.get('/get/citiesByState/:countryCode/:stateCode', CitiesController.getCitiesByState);
 
+router.post('/post/addCity',CitiesController.addCity);
+
 module.exports = router;  
