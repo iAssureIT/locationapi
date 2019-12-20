@@ -105,12 +105,12 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                 for (var i=0; i<unApprovedSocieties.length; i++){
                     console.log("unApprovedSocieties",unApprovedSocieties[i]);
 
-                    const formValues = {
+                    var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
                     } 
                     console.log("formValues",formValues);
-                    if(formValues.societyName && formValues.societyName){
+                    if(formValues.societyName!==null && formValues.societyName!==null){
                         axios({
                             method: 'post',
                             url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues
