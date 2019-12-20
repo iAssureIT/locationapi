@@ -38,8 +38,8 @@ const DistrictUrl 	= 	require("./api/routes/districts");
 const BlocksUrl 	= 	require("./api/routes/blocks");
 const CitiesUrl 	= 	require("./api/routes/cities");
 const AreasUrl 		= 	require("./api/routes/areas");
-const SubAreasUrl 		= 	require("./api/routes/subareas");
-const SocietiesUrl 		= 	require("./api/routes/societies");
+const SubAreasUrl 	= 	require("./api/routes/subareas");
+const SocietiesUrl 	= 	require("./api/routes/societies");
 
 app.use("/api/states",StatesUrl);
 app.use("/api/districts",DistrictUrl);

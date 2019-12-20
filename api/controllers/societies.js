@@ -3,7 +3,8 @@ const async = require("async");
 
 const Societies = require('../models/societies');
 const SubAreas = require('../models/subareas');
-const axios    = require('axios')
+const axios    = require('axios');
+
 exports.insertsociety = (req,res,next)=>{ 
     const society = new Societies({
         _id             : new mongoose.Types.ObjectId(),
@@ -94,53 +95,54 @@ exports.searchSocieties = (req,res,next)=>{
 };
 
 
-
+//Get unApproved Societies list
 exports.getUnapprovedSociety = (req,res,next)=>{
-    
     Societies  .find(
-            {"status" : "new"}).sort({ "areaName": 1 })
-            .exec()
-            .then(data=>{
-                if(data.length>0){
-                    for (var i=0; i<data.length; i++) {
-                        console.log("data",data[i]);
-                            const formValues = {
-                                societyName : data[i].societyName,
-                                subareaName : data[i].subareaName,
-                            } 
-                       
-                        console.log("formValues",formValues);
+        {"status" : "new"}).sort({ "areaName": 1 })
+        .exec()
+        .then(unApprovedSocieties=>{
+            if(unApprovedSocieties.length>0){
+                for (var i=0; i<unApprovedSocieties.length; i++){
+                    console.log("unApprovedSocieties",unApprovedSocieties[i]);
+
+                    const formValues = {
+                        societyName : unApprovedSocieties[i].societyName,
+                        subareaName : unApprovedSocieties[i].subareaName,
+                    } 
+                    console.log("formValues",formValues);
+                    if(formValues.societyName && formValues.societyName){
                         axios({
                             method: 'post',
-                            url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues,
-                          })        
+                            url: 'http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues
+                          })  
                         .then((propertyList) => {
                             console.log("propertyList",propertyList.data);
                             var properties = {
                                 "propertyList" : propertyList.data,
                             }
-                            if(properties.propertyList){
-                                data[i].push(properties);
+                            if(properties.propertyList && properties.propertyList.length > 0){
+                                unApprovedSocieties[i].push(properties);
                             }
                         })
                         .catch((error)=>{
                            console.log("error=>",error);
                         });
-                    }
-                    if(i >= data.length){
-                        res.status(200).json(data);
-                    }
-
-                }else{
-                    res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+                    }   
                 }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
+                if(i >= unApprovedSocieties.length){
+                    res.status(200).json(unApprovedSocieties);
+                }
+
+            }else{
+                res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
             });
+    });
 }
 
 
