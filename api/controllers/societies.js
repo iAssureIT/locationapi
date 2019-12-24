@@ -108,6 +108,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
                     } 
+                    console.log("formValues=>",formValues);
                     
                      axios.post('http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
