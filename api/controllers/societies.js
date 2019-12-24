@@ -101,6 +101,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         {"status" : "new"}).sort({ "areaName": 1 })
         .exec()
         .then(unApprovedSocieties=>{
+            console.log("unApprovedSocieties",unApprovedSocieties);
             var dataList = [];
             if(unApprovedSocieties.length>0){
                 var k = 0 ;
@@ -111,13 +112,11 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                     } 
                     
                     if(formValues.societyName!=="" && formValues.subareaName!==""){
-                        console.log("formValues",formValues);
                          axios.post('http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues)
                         .then((propertyList) => {
                             var properties = {
                                 "propertyList" : propertyList.data,
                             }
-                            console.log("properties",properties);
                             if(properties.propertyList && properties.propertyList.length>0){
                                 dataList.push({
                                     _id             : unApprovedSocieties[k]._id,
