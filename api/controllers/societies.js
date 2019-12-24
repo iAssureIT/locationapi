@@ -116,7 +116,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                         .then((propertyList) => {
                             if(propertyList && propertyList.data.length>0){
                                 dataList.push({
-                                    _id             : unApprovedSocieties[k]._id,
+                                    // _id             : unApprovedSocieties[k]._id,
                                     countryCode     : unApprovedSocieties[k].countryCode,
                                     stateCode       : unApprovedSocieties[k].stateCode,
                                     districtName    : unApprovedSocieties[k].districtName,
