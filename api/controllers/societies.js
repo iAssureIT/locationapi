@@ -103,7 +103,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var i=0; k<unApprovedSocieties.length; i++){
+                for (var i=0; i<unApprovedSocieties.length; i++){
                     var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
