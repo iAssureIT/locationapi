@@ -101,11 +101,13 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         {"status" : "new"}).sort({ "areaName": 1 })
         .exec()
         .then(unApprovedSocieties=>{
+            var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var i=0; i<unApprovedSocieties.length; i++){
+                var k = 0 ;
+                for (k=0; k<unApprovedSocieties.length; k++){
                     var formValues = {
-                        societyName : unApprovedSocieties[i].societyName,
-                        subareaName : unApprovedSocieties[i].subareaName,
+                        societyName : unApprovedSocieties[k].societyName,
+                        subareaName : unApprovedSocieties[k].subareaName,
                     } 
                     
                     if(formValues.societyName!=="" && formValues.subareaName!==""){
@@ -117,7 +119,19 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             }
                             console.log("properties",properties);
                             if(properties.propertyList && properties.propertyList.length>0){
-                                unApprovedSocieties[i].push(properties);
+                                dataList.push({
+                                    _id             : unApprovedSocieties[k]._id,
+                                    countryCode     : unApprovedSocieties[k].countryCode,
+                                    stateCode       : unApprovedSocieties[k].stateCode,
+                                    districtName    : unApprovedSocieties[k].districtName,
+                                    blockName       : unApprovedSocieties[k].blockName,
+                                    cityName        : unApprovedSocieties[k].cityName,
+                                    areaName        : unApprovedSocieties[k].areaName,
+                                    status          : unApprovedSocieties[k].status,
+                                    societyName     : unApprovedSocieties[k].societyName,
+                                    subareaName     : unApprovedSocieties[k].subareaName,
+                                    propList        : propertyList.data
+                                });
                             }
                             
                         })
@@ -126,9 +140,9 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                         });
                     }   
                 }
-                if(i >= unApprovedSocieties.length){
-                    console.log("unApprovedSocieties",unApprovedSocieties);
-                    res.status(200).json(unApprovedSocieties);
+                if(k >= unApprovedSocieties.length){
+                    console.log("dataList",dataList);
+                    res.status(200).json(dataList);
                 }
 
             }else{
