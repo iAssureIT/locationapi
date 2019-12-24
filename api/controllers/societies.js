@@ -103,10 +103,10 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var i=0; i<unApprovedSocieties.length; i++){
+                for (var k=0; k<unApprovedSocieties.length; k++){
                     var formValues = {
-                        societyName : unApprovedSocieties[i].societyName,
-                        subareaName : unApprovedSocieties[i].subareaName,
+                        societyName : unApprovedSocieties[k].societyName,
+                        subareaName : unApprovedSocieties[k].subareaName,
                     } 
                     var url = "http://qatgk3tapi.iassureit.com";
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
@@ -133,7 +133,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                        console.log("error=>",error);
                     });
                 }
-                if(i >= unApprovedSocieties.length){
+                if(k >= unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
