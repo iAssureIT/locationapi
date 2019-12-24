@@ -108,12 +108,11 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
                     } 
-                    console.log("formValues=>",formValues);
                     var url = "http://qatgk3tapi.iassureit.com";
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
+                        console.log("propertyList",propertyList.data);
                         if(propertyList && propertyList.data.length>0){
-                        console.log("unApprovedSocieties["+i+"]=>",unApprovedSocieties[i]);
                             dataList.push({
                                 // _id             : unApprovedSocieties[i]._id,
                                 // countryCode     : unApprovedSocieties[i].countryCode,
