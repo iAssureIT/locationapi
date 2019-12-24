@@ -103,39 +103,37 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var k=0; k<unApprovedSocieties.length; k++){
+                for (var i=0; k<unApprovedSocieties.length; i++){
                     var formValues = {
-                        societyName : unApprovedSocieties[k].societyName,
-                        subareaName : unApprovedSocieties[k].subareaName,
+                        societyName : unApprovedSocieties[i].societyName,
+                        subareaName : unApprovedSocieties[i].subareaName,
                     } 
                     
-                    if(formValues.societyName!=="" && formValues.subareaName!==""){
-                         axios.post('http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues)
-                        .then((propertyList) => {
-                            if(propertyList && propertyList.data.length>0){
-                            console.log("unApprovedSocieties["+k+"]=>",unApprovedSocieties);
-                                dataList.push({
-                                    _id             : unApprovedSocieties[k]._id,
-                                    countryCode     : unApprovedSocieties[k].countryCode,
-                                    stateCode       : unApprovedSocieties[k].stateCode,
-                                    districtName    : unApprovedSocieties[k].districtName,
-                                    blockName       : unApprovedSocieties[k].blockName,
-                                    cityName        : unApprovedSocieties[k].cityName,
-                                    areaName        : unApprovedSocieties[k].areaName,
-                                    status          : unApprovedSocieties[k].status,
-                                    societyName     : unApprovedSocieties[k].societyName,
-                                    subareaName     : unApprovedSocieties[k].subareaName,
-                                    propList        : propertyList.data
-                                });
-                            }
-                            
-                        })
-                        .catch((error)=>{
-                           console.log("error=>",error);
-                        });
-                    }   
+                     axios.post('http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues)
+                    .then((propertyList) => {
+                        if(propertyList && propertyList.data.length>0){
+                        console.log("unApprovedSocieties["+i+"]=>",unApprovedSocieties[i]);
+                            dataList.push({
+                                _id             : unApprovedSocieties[i]._id,
+                                countryCode     : unApprovedSocieties[i].countryCode,
+                                stateCode       : unApprovedSocieties[i].stateCode,
+                                districtName    : unApprovedSocieties[i].districtName,
+                                blockName       : unApprovedSocieties[i].blockName,
+                                cityName        : unApprovedSocieties[i].cityName,
+                                areaName        : unApprovedSocieties[i].areaName,
+                                status          : unApprovedSocieties[i].status,
+                                societyName     : unApprovedSocieties[i].societyName,
+                                subareaName     : unApprovedSocieties[i].subareaName,
+                                propList        : propertyList.data
+                            });
+                        }
+                        
+                    })
+                    .catch((error)=>{
+                       console.log("error=>",error);
+                    });
                 }
-                if(k >= unApprovedSocieties.length){
+                if(i >= unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
