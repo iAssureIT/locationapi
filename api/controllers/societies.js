@@ -114,10 +114,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                     if(formValues.societyName!=="" && formValues.subareaName!==""){
                          axios.post('http://qatgk3tapi.iassureit.com/api/properties/post/locationProperties',formValues)
                         .then((propertyList) => {
-                            var properties = {
-                                "propertyList" : propertyList.data,
-                            }
-                            if(properties.propertyList && properties.propertyList.length>0){
+                            if(propertyList && propertyList.data.length>0){
                                 dataList.push({
                                     _id             : unApprovedSocieties[k]._id,
                                     countryCode     : unApprovedSocieties[k].countryCode,
