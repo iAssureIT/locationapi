@@ -103,28 +103,29 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var k = unApprovedSocieties.length - 1; k >= 0; k--) {
+                for (var i = unApprovedSocieties.length - 1; i >= 0; i--) {
                     var formValues = {
-                        societyName : unApprovedSocieties[k].societyName,
-                        subareaName : unApprovedSocieties[k].subareaName,
+                        societyName : unApprovedSocieties[i].societyName,
+                        subareaName : unApprovedSocieties[i].subareaName,
                     } 
                     var url = "http://qatgk3tapi.iassureit.com";
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
-                        console.log("unApprovedSocieties"+[k]+"._id=>",unApprovedSocieties[k]);
-                        dataList.push({
-                            _id             : unApprovedSocieties[k]._id,
-                            countryCode     : unApprovedSocieties[k].countryCode,
-                            stateCode       : unApprovedSocieties[k].stateCode,
-                            districtName    : unApprovedSocieties[k].districtName,
-                            blockName       : unApprovedSocieties[k].blockName,
-                            cityName        : unApprovedSocieties[k].cityName,
-                            areaName        : unApprovedSocieties[k].areaName,
-                            status          : unApprovedSocieties[k].status,
-                            societyName     : unApprovedSocieties[k].societyName,
-                            subareaName     : unApprovedSocieties[k].subareaName,
-                            propList        : propertyList.data
-                        });
+                        for (var k = unApprovedSocieties.length - 1;  k>= 0; k--) {
+                            dataList.push({
+                                _id             : unApprovedSocieties[k]._id,
+                                countryCode     : unApprovedSocieties[k].countryCode,
+                                stateCode       : unApprovedSocieties[k].stateCode,
+                                districtName    : unApprovedSocieties[k].districtName,
+                                blockName       : unApprovedSocieties[k].blockName,
+                                cityName        : unApprovedSocieties[k].cityName,
+                                areaName        : unApprovedSocieties[k].areaName,
+                                status          : unApprovedSocieties[k].status,
+                                societyName     : unApprovedSocieties[k].societyName,
+                                subareaName     : unApprovedSocieties[k].subareaName,
+                                propList        : propertyList.data
+                            });
+                        }
                         console.log("dataList=>",dataList);
 
                     })
@@ -132,7 +133,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                        console.log("error=>",error);
                     });
                 }
-                if(k <= unApprovedSocieties.length){
+                if(i <= unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
