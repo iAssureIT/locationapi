@@ -128,6 +128,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                                 subareaName     : unApprovedSocieties[i].subareaName,
                                 propList        : propList
                             });
+                             console.log("dataList=>",dataList);
 
                     } 
                         
