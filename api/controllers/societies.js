@@ -103,7 +103,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             
             if(unApprovedSocieties.length>0){
-                for (var i = unApprovedSocieties.length - 1; i >= 0; i--) {
+                for (i = 0 ; i < unApprovedSocieties.length; i++) {
                     var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
@@ -112,7 +112,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
                         var dataList = [];
-                        for (var k = unApprovedSocieties.length - 1;  k>= 0; k--) {
+                        for (k = 0 ; k < unApprovedSocieties.length ; k++) {
                             dataList.push({
                                 _id             : unApprovedSocieties[k]._id,
                                 countryCode     : unApprovedSocieties[k].countryCode,
