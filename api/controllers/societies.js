@@ -97,71 +97,61 @@ exports.searchSocieties = (req,res,next)=>{
 
 //Get unApproved Societies list
 exports.getUnapprovedSociety = (req,res,next)=>{
-    main();
-    async function main(){
-        Societies  .find(
-            {"status" : "new"}).sort({ "areaName": 1 })
-            .exec()
-            .then(unApprovedSocieties=>{
-                
-                if(unApprovedSocieties.length>0){
-                    var dataList = [];
-                    for (var i = 0; i < unApprovedSocieties.length; i++) {
-                        var formValues = {
-                            societyName : unApprovedSocieties[i].societyName,
-                            subareaName : unApprovedSocieties[i].subareaName,
-                        }
-                        
-                        var propList         = await getPropertyList(formValues);
-                        console.log("propList=>",propList);
-                        dataList.push({
-                            _id             : unApprovedSocieties[i]._id,
-                            countryCode     : unApprovedSocieties[i].countryCode,
-                            stateCode       : unApprovedSocieties[i].stateCode,
-                            districtName    : unApprovedSocieties[i].districtName,
-                            blockName       : unApprovedSocieties[i].blockName,
-                            cityName        : unApprovedSocieties[i].cityName,
-                            areaName        : unApprovedSocieties[i].areaName,
-                            status          : unApprovedSocieties[i].status,
-                            societyName     : unApprovedSocieties[i].societyName,
-                            subareaName     : unApprovedSocieties[i].subareaName,
-                            propList        : propList
-                        });
+    Societies  .find(
+        {"status" : "new"}).sort({ "areaName": 1 })
+        .exec()
+        .then(unApprovedSocieties=>{
+            
+            if(unApprovedSocieties.length>0){
+                var dataList = [];
+                for (var i = 0; i < unApprovedSocieties.length; i++) {
+                    var formValues = {
+                        societyName : unApprovedSocieties[i].societyName,
+                        subareaName : unApprovedSocieties[i].subareaName,
                     } 
-                        
-                    if(i === unApprovedSocieties.length-1){
-                        console.log("dataList",dataList);
-                        res.status(200).json(dataList);
-                    }
+                    var url = "http://qatgk3tapi.iassureit.com";
+                     axios.post(url+'/api/properties/post/locationProperties',formValues)
+                    .then((propertyList) => {
+                        if(propertyList.data){
+                            dataList.push({
+                                _id             : unApprovedSocieties[i]._id,
+                                countryCode     : unApprovedSocieties[i].countryCode,
+                                stateCode       : unApprovedSocieties[i].stateCode,
+                                districtName    : unApprovedSocieties[i].districtName,
+                                blockName       : unApprovedSocieties[i].blockName,
+                                cityName        : unApprovedSocieties[i].cityName,
+                                areaName        : unApprovedSocieties[i].areaName,
+                                status          : unApprovedSocieties[i].status,
+                                societyName     : unApprovedSocieties[i].societyName,
+                                subareaName     : unApprovedSocieties[i].subareaName,
+                                propList        : propertyList.data
+                            });   
+                        }
+                            
+                        console.log("dataList=>",dataList);
 
-                }else{
-                    res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+                    })
+                    .catch((error)=>{
+                       console.log("error=>",error);
+                    });
                 }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-        });
-    }
-}
+                if(i <= unApprovedSocieties.length-1){
+                    console.log("dataList",dataList);
+                    res.status(200).json(dataList);
+                }
 
-function getPropertyList(formValues){
-    return new Promise(function(resolve,reject){
-        console.log("formValues=>",formValues);
-        var url = "http://qatgk3tapi.iassureit.com";
-        axios.post(url+'/api/properties/post/locationProperties',formValues)
-        .then((propertyList) => {
-            if(propertyList.data){
-                resolve(propertyList.data);    
+            }else{
+                res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
             }
         })
-        .catch((error)=>{
-           console.log("error=>",error);
-        });
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
     });
-};
+}
+
 
 
 exports.update_status = (req,res,next)=>{
