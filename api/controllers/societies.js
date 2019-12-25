@@ -104,7 +104,9 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             
             if(unApprovedSocieties.length>0){
                 var dataList = [];
-                for (var i = 0 ; i < unApprovedSocieties.length; i++) {
+                var i = 0;
+                var k = 0;
+                for (i = 0 ; i < unApprovedSocieties.length; i++) {
                     var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
@@ -113,7 +115,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
                         
-                        for (var k = 0 ; k < unApprovedSocieties.length ; k++) {
+                        for (k = 0 ; k < unApprovedSocieties.length ; k++) {
                             dataList.push({
                                 _id             : unApprovedSocieties[k]._id,
                                 countryCode     : unApprovedSocieties[k].countryCode,
@@ -135,7 +137,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                        console.log("error=>",error);
                     });
                 }
-                if(i === unApprovedSocieties.length){
+                if(k === unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
