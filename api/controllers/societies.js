@@ -103,6 +103,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             
             if(unApprovedSocieties.length>0){
+                var dataList = [];
                 for (var i = 0 ; i < unApprovedSocieties.length; i++) {
                     var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
@@ -111,7 +112,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                     var url = "http://qatgk3tapi.iassureit.com";
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
-                        var dataList = [];
+                        
                         for (var k = 0 ; k < unApprovedSocieties.length ; k++) {
                             dataList.push({
                                 _id             : unApprovedSocieties[k]._id,
