@@ -104,7 +104,8 @@ exports.getUnapprovedSociety = (req,res,next)=>{
             
             if(unApprovedSocieties.length>0){
                 var dataList = [];
-                for (var i = unApprovedSocieties.length - 1; i >= 0; i--) {
+                var i =0
+                while (i< unApprovedSocieties.length) {
                     var formValues = {
                         societyName : unApprovedSocieties[i].societyName,
                         subareaName : unApprovedSocieties[i].subareaName,
@@ -134,8 +135,9 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                     .catch((error)=>{
                        console.log("error=>",error);
                     });
+                    i++;
                 }
-                if(i <= unApprovedSocieties.length-1){
+                if(i === unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
