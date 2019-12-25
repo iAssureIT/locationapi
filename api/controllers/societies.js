@@ -103,7 +103,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
         .then(unApprovedSocieties=>{
             var dataList = [];
             if(unApprovedSocieties.length>0){
-                for (var k=0; k<unApprovedSocieties.length; k++){
+                for (var k = unApprovedSocieties.length - 1; k >= 0; k--) {
                     var formValues = {
                         societyName : unApprovedSocieties[k].societyName,
                         subareaName : unApprovedSocieties[k].subareaName,
@@ -114,16 +114,16 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                         console.log("propertyList",propertyList.data);
                         if(propertyList && propertyList.data.length>0){
                             dataList.push({
-                                // _id             : unApprovedSocieties[i]._id,
-                                // countryCode     : unApprovedSocieties[i].countryCode,
-                                // stateCode       : unApprovedSocieties[i].stateCode,
-                                // districtName    : unApprovedSocieties[i].districtName,
-                                // blockName       : unApprovedSocieties[i].blockName,
-                                // cityName        : unApprovedSocieties[i].cityName,
-                                // areaName        : unApprovedSocieties[i].areaName,
-                                // status          : unApprovedSocieties[i].status,
-                                // societyName     : unApprovedSocieties[i].societyName,
-                                // subareaName     : unApprovedSocieties[i].subareaName,
+                                _id             : unApprovedSocieties[k]._id,
+                                countryCode     : unApprovedSocieties[k].countryCode,
+                                stateCode       : unApprovedSocieties[k].stateCode,
+                                districtName    : unApprovedSocieties[k].districtName,
+                                blockName       : unApprovedSocieties[k].blockName,
+                                cityName        : unApprovedSocieties[k].cityName,
+                                areaName        : unApprovedSocieties[k].areaName,
+                                status          : unApprovedSocieties[k].status,
+                                societyName     : unApprovedSocieties[k].societyName,
+                                subareaName     : unApprovedSocieties[k].subareaName,
                                 propList        : propertyList.data
                             });
                         }
