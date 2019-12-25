@@ -134,7 +134,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                        console.log("error=>",error);
                     });
                 }
-                if(i >= unApprovedSocieties.length){
+                if(i <= unApprovedSocieties.length){
                     console.log("dataList",dataList);
                     res.status(200).json(dataList);
                 }
