@@ -112,22 +112,22 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                     var url = "http://qatgk3tapi.iassureit.com";
                      axios.post(url+'/api/properties/post/locationProperties',formValues)
                     .then((propertyList) => {
-                        
-                        for (var k = unApprovedSocieties.length - 1;  k>= 0; k--) {
+                        if(propertyList.data){
                             dataList.push({
-                                _id             : unApprovedSocieties[k]._id,
-                                countryCode     : unApprovedSocieties[k].countryCode,
-                                stateCode       : unApprovedSocieties[k].stateCode,
-                                districtName    : unApprovedSocieties[k].districtName,
-                                blockName       : unApprovedSocieties[k].blockName,
-                                cityName        : unApprovedSocieties[k].cityName,
-                                areaName        : unApprovedSocieties[k].areaName,
-                                status          : unApprovedSocieties[k].status,
-                                societyName     : unApprovedSocieties[k].societyName,
-                                subareaName     : unApprovedSocieties[k].subareaName,
+                                _id             : unApprovedSocieties[i]._id,
+                                countryCode     : unApprovedSocieties[i].countryCode,
+                                stateCode       : unApprovedSocieties[i].stateCode,
+                                districtName    : unApprovedSocieties[i].districtName,
+                                blockName       : unApprovedSocieties[i].blockName,
+                                cityName        : unApprovedSocieties[i].cityName,
+                                areaName        : unApprovedSocieties[i].areaName,
+                                status          : unApprovedSocieties[i].status,
+                                societyName     : unApprovedSocieties[i].societyName,
+                                subareaName     : unApprovedSocieties[i].subareaName,
                                 propList        : propertyList.data
-                            });
+                            });   
                         }
+                            
                         console.log("dataList=>",dataList);
 
                     })
