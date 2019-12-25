@@ -133,10 +133,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                        console.log("error=>",error);
                     });
                 }
-                if(k <= unApprovedSocieties.length){
-                    console.log("dataList",dataList);
                     res.status(200).json(dataList);
-                }
 
             }else{
                 res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
