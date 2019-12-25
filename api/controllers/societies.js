@@ -1,4 +1,4 @@
-const mongoose	= require("mongoose");
+const mongoose  = require("mongoose");
 const async = require("async");
 
 const Societies = require('../models/societies');
@@ -97,22 +97,24 @@ exports.searchSocieties = (req,res,next)=>{
 
 //Get unApproved Societies list
 exports.getUnapprovedSociety = (req,res,next)=>{
-    Societies  .find(
-        {"status" : "new"}).sort({ "areaName": 1 })
-        .exec()
-        .then(unApprovedSocieties=>{
-            
-            if(unApprovedSocieties.length>0){
-                var dataList = [];
-                for (var i = 0; i < unApprovedSocieties.length; i++) {
-                    var formValues = {
-                        societyName : unApprovedSocieties[i].societyName,
-                        subareaName : unApprovedSocieties[i].subareaName,
-                    } 
-                    var url = "http://qatgk3tapi.iassureit.com";
-                     axios.post(url+'/api/properties/post/locationProperties',formValues)
-                    .then((propertyList) => {
-                        if(propertyList.data){
+    
+        Societies  .find(
+            {"status" : "new"}).sort({ "areaName": 1 })
+            .exec()
+            .then(unApprovedSocieties=>{
+                main();
+                async function main(){
+                if(unApprovedSocieties.length>0){
+                    var dataList = [];
+                   
+                    for (var i = 0; i < unApprovedSocieties.length; i++) {
+                        var formValues = {
+                            societyName : unApprovedSocieties[i].societyName,
+                            subareaName : unApprovedSocieties[i].subareaName,
+                        }
+                        
+                            var propList         = await getPropertyList(formValues);
+                            console.log("propList=>",propList);
                             dataList.push({
                                 _id             : unApprovedSocieties[i]._id,
                                 countryCode     : unApprovedSocieties[i].countryCode,
@@ -124,25 +126,21 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                                 status          : unApprovedSocieties[i].status,
                                 societyName     : unApprovedSocieties[i].societyName,
                                 subareaName     : unApprovedSocieties[i].subareaName,
-                                propList        : propertyList.data
-                            });   
-                        }
-                            
-                        console.log("dataList=>",dataList);
+                                propList        : propList
+                            });
 
-                    })
-                    .catch((error)=>{
-                       console.log("error=>",error);
-                    });
-                }
-                if(i <= unApprovedSocieties.length-1){
-                    console.log("dataList",dataList);
-                    res.status(200).json(dataList);
-                }
+                    } 
+                        
+                    if(i === unApprovedSocieties.length-1){
+                        console.log("dataList",dataList);
+                        res.status(200).json(dataList);
+                    }
 
-            }else{
-                res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+                }else{
+                    res.status(200).json({"message" : 'society not found for this '+ req.params.districtName +' district and '+req.params.blockName+' block'});
+                }
             }
+
         })
         .catch(err =>{
             console.log(err);
@@ -152,6 +150,21 @@ exports.getUnapprovedSociety = (req,res,next)=>{
     });
 }
 
+function getPropertyList(formValues){
+    return new Promise(function(resolve,reject){
+        console.log("formValues=>",formValues);
+        var url = "http://qatgk3tapi.iassureit.com";
+        axios.post(url+'/api/properties/post/locationProperties',formValues)
+        .then((propertyList) => {
+            if(propertyList.data){
+                resolve(propertyList.data);    
+            }
+        })
+        .catch((error)=>{
+           console.log("error=>",error);
+        });
+    });
+};
 
 
 exports.update_status = (req,res,next)=>{
