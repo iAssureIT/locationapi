@@ -7,7 +7,7 @@ router.post('/post/', SocietiesController.insertsociety);
 
 router.get('/get/list/:countryCode/:stateCode/:districtName/:blockName/:cityName/:areaName/:subareaName', SocietiesController.getsociety);
 
-router.get('/get/getUnapprovedSociety', SocietiesController.getUnapprovedSociety);
+router.get('/get/getUnapprovedSociety:url', SocietiesController.getUnapprovedSociety);
 
 router.patch('/patch/', SocietiesController.update_status);
 

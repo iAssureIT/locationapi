@@ -113,7 +113,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             subareaName : unApprovedSocieties[i].subareaName,
                         }
                         
-                            var propList         = await getPropertyList(formValues);
+                            var propList         = await getPropertyList(formValues,req.params.url);
                             console.log("propList=>",propList);
                             dataList.push({
                                 _id             : unApprovedSocieties[i]._id,
@@ -151,10 +151,10 @@ exports.getUnapprovedSociety = (req,res,next)=>{
     });
 }
 
-function getPropertyList(formValues){
+function getPropertyList(formValues,url){
     return new Promise(function(resolve,reject){
         console.log("formValues=>",formValues);
-        var url = "http://qatgk3tapi.iassureit.com";
+        console.log("url=>",url);
         axios.post(url+'/api/properties/post/locationProperties',formValues)
         .then((propertyList) => {
             if(propertyList.data){
