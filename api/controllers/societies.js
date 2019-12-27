@@ -113,7 +113,7 @@ exports.getUnapprovedSociety = (req,res,next)=>{
                             subareaName : unApprovedSocieties[i].subareaName,
                         }
                         
-                            var propList         = await getPropertyList(formValues,req.params.url);
+                            var propList         = await getPropertyList(formValues,req.body.url);
                             console.log("propList=>",propList);
                             dataList.push({
                                 _id             : unApprovedSocieties[i]._id,
