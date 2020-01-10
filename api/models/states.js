@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const StateSchema = mongoose.Schema({
 	_id			        : mongoose.Schema.Types.ObjectId, 
-    countryCode         : String,
-    countryName       	: String,
+    countryID  	        : { type: mongoose.Schema.Types.ObjectId, ref: 'countries' },
     stateName           : String,
     type                : String,
    	stateCode			: String,

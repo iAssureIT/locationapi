@@ -3,13 +3,13 @@ const app 			= express();
 const morgan 		= require('morgan');// morgan call next function if problem occure
 const bodyParser 	= require('body-parser');// this package use to formate json data 
 const mongoose 		= require ('mongoose');
-
-const dbname = "locations";
+app.use(bodyParser.json({limit: '100mb'}));
+const dbname = "location2";
 global.JWT_KEY = "secret";
 
 
 mongoose.connect('mongodb://localhost/'+dbname,{
-	useNewUrlParser: true
+	useNewUrlParser: true,
 })
 mongoose.promise = global.Promise;
 
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 
-
+const CountriesUrl 	= 	require("./api/routes/countries");
 const StatesUrl 	= 	require("./api/routes/states");
 const DistrictUrl 	= 	require("./api/routes/districts");
 const BlocksUrl 	= 	require("./api/routes/blocks");
@@ -41,6 +41,7 @@ const AreasUrl 		= 	require("./api/routes/areas");
 const SubAreasUrl 	= 	require("./api/routes/subareas");
 const SocietiesUrl 	= 	require("./api/routes/societies");
 
+app.use("/api/countries",CountriesUrl);
 app.use("/api/states",StatesUrl);
 app.use("/api/districts",DistrictUrl);
 app.use("/api/blocks",BlocksUrl);

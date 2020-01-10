@@ -15,6 +15,12 @@ router.get('/get/files/count',StatesController.fetch_file_count);
 
 router.get('/get/filedetails/:fileName',StatesController.filedetails);
 
+router.get('/get/pincodefiledetails/:fileName',StatesController.pincodefiledetails);
+
+router.post('/post/areabulkinsert', StatesController.areabulkinsert);
+
+router.get('/delete/duplicates', StatesController.removeduplicates);
+
 router.delete('/file/delete/:fileName',StatesController.delete_file);
 
 router.post('/post/addState',StatesController.addState);
