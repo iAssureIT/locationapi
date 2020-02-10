@@ -4,11 +4,13 @@ const morgan 		= require('morgan');// morgan call next function if problem occur
 const bodyParser 	= require('body-parser');// this package use to formate json data 
 const mongoose 		= require ('mongoose');
 app.use(bodyParser.json({limit: '100mb'}));
+const globalVariable	= require("./nodemon.js");
+
 const dbname = "location2";
 global.JWT_KEY = "secret";
 
 
-mongoose.connect('mongodb://localhost/'+dbname,{
+mongoose.connect('mongodb://localhost/'+globalVariable.dbname,{
 	useNewUrlParser: true,
 })
 mongoose.promise = global.Promise;
