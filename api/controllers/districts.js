@@ -14,7 +14,7 @@ exports.getDistricts = (req,res,next)=>{
              as: 'countryDetails'
            }
     },
-    { $lookup:
+    { $lookup: 
            {
              from: 'states',
              localField: 'stateID',
@@ -32,14 +32,6 @@ exports.getDistricts = (req,res,next)=>{
       { "$match" : { "countryCode" :  { "$regex": req.params.countryCode, $options: "i" },
                      "stateCode"   :  { "$regex": req.params.stateCode, $options: "i" } } }                 
     ]).sort({ "districtName": 1 })
-    // Districts   .find(
-    //             {
-    //                 "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
-    //                 "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"}
-    //             },
-    //             {districtName: 1},
-
-    //             ).sort({ "districtName": 1 })
                 .exec()
                 .then(data=>{
                     if(data.length>0){
@@ -67,6 +59,61 @@ exports.getDistricts = (req,res,next)=>{
                 });
 }
 
+exports.getDistrictsFromMultipleStates = (req,res,next)=>{
+    Districts.aggregate([
+    { $lookup:
+           {
+             from: 'countries',
+             localField: 'countryID',
+             foreignField: '_id',
+             as: 'countryDetails'
+           }
+    },
+    { $lookup: 
+           {
+             from: 'states',
+             localField: 'stateID',
+             foreignField: '_id',
+             as: 'stateDetails'
+           }
+     },
+      { "$unwind": "$countryDetails" },
+      { "$unwind": "$stateDetails" },
+      { "$addFields": { countryCode     : '$countryDetails.countryCode', 
+                        countryName     : '$countryDetails.countryName',
+                        stateCode       : '$stateDetails.stateCode',
+                        stateName       : '$stateDetails.stateName'
+                      } },
+      { "$match" : { "countryCode" :  { "$regex": req.body.countryCode, $options: "i" },
+                     "stateCode"   :  { $in :   req.body.stateCodes  }  } }                 
+    ]).sort({ "districtName": 1 })
+    
+                .exec()
+                .then(data=>{
+                    if(data.length>0){
+                        var allData = data.map((x, i)=>{
+                        return {
+                            "_id"                 : x._id,
+                            "countryCode"         : x.countryCode,
+                            "countryName"         : x.countryName,  
+                            "stateCode"           : x.stateCode,
+                            "stateName"           : camelCase(x.stateName),
+                            "districtName"        : camelCase(x.districtName),
+                        }
+                        })
+                        res.status(200).json(allData);
+                        //res.status(200).json(data);
+                    }else{
+                        res.status(200).json({"message" : 'District not found for this '+ req.params.stateCode +' State Code and '+req.params.countryCode+' Country Code'});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
 var camelCase = (str)=>{
       return str
       .toLowerCase()
@@ -106,7 +153,6 @@ exports.bulkinsert = (req,res,next)=>{
             for(i = 0 ; i < req.body.invalidData.length ; i++){
                 invalidObjects.push(req.body.invalidData[i])
             }
-            console.log('invalidObjects',invalidObjects);
             invalidData.badRecords = invalidObjects
             invalidData.fileName = districtsData[0]['fileName'];
             invalidData.totalRecords = req.body.totalRecords;
@@ -132,7 +178,7 @@ var insertDistrict = async (data,reqData) => {
         districtDuplicateControl();
         async function districtDuplicateControl(){
             var districtPresent = await findDistrict(data.districtName,reqData.stateID);
-            console.log('districtPresent',districtPresent)    
+            // console.log('districtPresent',districtPresent)    
             if (districtPresent==0) {
                 const district = new Districts({
                 _id                     : new mongoose.Types.ObjectId(),                    
@@ -249,7 +295,7 @@ var insertBadData = async (invalidData) => {
 }
 exports.filedetails = (req,res,next)=>{
     var finaldata = {};
-    console.log(req.params.fileName)
+    
     Districts.find({fileName:req.params.fileName})
     .exec()
     .then(data=>{

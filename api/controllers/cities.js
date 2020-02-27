@@ -53,18 +53,12 @@ exports.getCities = (req,res,next)=>{
                      "districtName":  { "$regex": req.params.districtName, $options: "i" },
                      "blockName"   :  { "$regex": req.params.blockName, $options: "i" }
                     } 
-    }            
-    ]).sort({ "cityName": 1 })
-    // Cities  .find(
-    //         {
-    //             "countryCode"   :   { "$regex": req.params.countryCode, $options: "i"},
-    //             "stateCode"     :   { "$regex": req.params.stateCode, $options: "i"},
-    //             "districtName"  :   { "$regex": req.params.districtName, $options: "i"},
-    //             "blockName"     :   { "$regex": req.params.blockName, $options: "i"}
-    //         },{cityName: 1,pincode:1}).sort({ "cityName": 1 })
+        }           
+    ])
+   
             .exec()
             .then(data=>{   
-                 console.log(data);     
+                // console.log(data);     
                 if(data.length>0){   
                     var allData = data.map((x, i)=>{
                         return {

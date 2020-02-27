@@ -68,7 +68,7 @@ exports.removeduplicates = (req,res,next)=>{
                         var name = x.cityName;
                         
                         if (name == previousName) {
-                            console.log(name);
+                            //console.log(name);
                             
                             Cities.deleteOne({"stateID" : "5e0ecaa3e6ab1612ace9a9a0","cityName":name})
                             .exec()
@@ -168,7 +168,7 @@ exports.bulkinsert = (req,res,next)=>{
         invalidData.totalRecords = req.body.totalRecords;
         var insertBadDataObject = await insertBadData(invalidData); 
         if (goodRecord > 0 || DuplicateCount > 0) {
-            console.log('Process Completed',goodRecord);
+            //console.log('Process Completed',goodRecord);
             res.status(200).json({
                 "completed": true
             });
@@ -251,7 +251,7 @@ exports.areabulkinsert = (req,res,next)=>{
         invalidData.totalRecords = req.body.totalRecords;
         var insertBadDataObject = await insertBadData(invalidData); 
         if (goodRecord > 0 || DuplicateCount > 0) {
-            console.log('Process Completed',goodRecord);
+            //console.log('Process Completed',goodRecord);
             res.status(200).json({
                 "completed": true
             });

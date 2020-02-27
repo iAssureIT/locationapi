@@ -5,6 +5,8 @@ const DistrictController = require('../controllers/districts');
 
 router.get('/get/list/:countryCode/:stateCode', DistrictController.getDistricts);
 
+router.post('/get/list', DistrictController.getDistrictsFromMultipleStates);
+
 router.post('/post/bulkinsert', DistrictController.bulkinsert);
  
 router.get('/get/filedetails/:fileName',DistrictController.filedetails);
