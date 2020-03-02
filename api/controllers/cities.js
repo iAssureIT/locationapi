@@ -1,6 +1,6 @@
 const mongoose	= require("mongoose");
 const async = require("async");
-
+var   ObjectID          = require('mongodb').ObjectID;
 const Cities = require('../models/cities');
 
 exports.getCities = (req,res,next)=>{
@@ -37,38 +37,31 @@ exports.getCities = (req,res,next)=>{
              as: 'blockDetails'
            }
      },
-      { "$unwind": "$countryDetails" },
-      { "$unwind": "$stateDetails" },
-      { "$unwind": "$districtDetails" },
-      { "$unwind": "$blockDetails" },
-      { "$addFields": { countryCode     : '$countryDetails.countryCode', 
-                        countryName     : '$countryDetails.countryName',
-                        stateCode       : '$stateDetails.stateCode',
-                        stateName       : '$stateDetails.stateName',
-                        districtName    : '$districtDetails.districtName',
-                        blockName       : '$blockDetails.blockName'
-                      } },
-      { "$match" : { "countryCode" :  { "$regex": req.params.countryCode, $options: "i" },
-                     "stateCode"   :  { "$regex": req.params.stateCode, $options: "i" } ,
-                     "districtName":  { "$regex": req.params.districtName, $options: "i" },
-                     "blockName"   :  { "$regex": req.params.blockName, $options: "i" }
+    
+    { "$match" : {  "countryDetails.countryCode" :  { "$regex": req.params.countryCode, $options: "i" },
+                    "stateDetails.stateCode"   :  { "$regex": req.params.stateCode, $options: "i" } ,
+                    //"districtDetails.districtName":  { "$regex": req.params.districtName, $options: "i" },
+                    //"blockName"   :  { "$regex": req.params.blockName, $options: "i" }
                     } 
-        }           
+        }     
     ])
    
             .exec()
             .then(data=>{   
-                // console.log(data);     
+                  
                 if(data.length>0){   
                     var allData = data.map((x, i)=>{
+                        //console.log(x);   
+                        if (x.districtDetails[0].districtName.toLowerCase() == req.params.districtName
+                            && x.blockDetails[0].blockName.toLowerCase()== req.params.blockName) {}
                         return {
                             "_id"                 : x._id,
-                            "countryCode"         : x.countryCode,
-                            "countryName"         : x.countryName, 
-                            "stateCode"           : x.stateCode, 
-                            "stateName"           : camelCase(x.stateName),
-                            "districtName"        : camelCase(x.districtName),
-                            "blockName"           : camelCase(x.blockName),
+                            "countryCode"         : x.countryDetails[0].countryCode,
+                            "countryName"         : x.countryDetails[0].countryName, 
+                            "stateCode"           : x.stateDetails[0].stateCode, 
+                            "stateName"           : camelCase(x.stateDetails[0].stateName),
+                            "districtName"        : camelCase(x.districtDetails[0].districtName),
+                            "blockName"           : camelCase(x.blockDetails[0].blockName),
                             "cityName"            : camelCase(x.cityName)  
                         }
                         })
@@ -90,6 +83,37 @@ var camelCase = (str)=>{
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+}
+
+exports.getCitiesWithId = (req,res,next)=>{
+    Cities.find({
+    "countryID" : ObjectID(req.params.countryID),
+    "stateID"   : ObjectID(req.params.stateID),
+    "districtID": ObjectID(req.params.districtID),
+    "blockID"   : ObjectID(req.params.blockID)
+    })
+    .exec()
+            .then(data=>{  
+            if(data.length>0){   
+                    var allData = data.map((x, i)=>{
+                        //console.log(x);   
+                       
+                        return {
+                            "_id"                 : x._id,
+                            "cityName"            : camelCase(x.cityName)  
+                        }
+                        })
+                        res.status(200).json(allData); 
+                }else{
+                    res.status(200).json({"message" : 'City not found for this '+ req.params.districtName +' District and '+req.params.blockName+' block'});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            }); 
 }
 exports.getCitiesByState = (req,res,next)=>{
 
