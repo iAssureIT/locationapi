@@ -29,31 +29,26 @@ exports.getBlocks = (req,res,next)=>{
              as: 'districtDetails'
            }
      },
-      { "$unwind": "$countryDetails" },
-      { "$unwind": "$stateDetails" },
-      { "$unwind": "$districtDetails" },
-      { "$addFields": { countryCode     : '$countryDetails.countryCode', 
-                        countryName     : '$countryDetails.countryName',
-                        stateCode       : '$stateDetails.stateCode',
-                        stateName       : '$stateDetails.stateName',
-                        districtName    : '$districtDetails.districtName'
-                      } },
-      { "$match" : { "countryCode" :  { "$regex": req.params.countryCode, $options: "i" },
-                     "stateCode"   :  { "$regex": req.params.stateCode, $options: "i" } ,
-                     "districtName":  { "$regex": req.params.districtName, $options: "i" } } 
+      { "$match" : { "countryDetails.countryCode" :  { "$regex": req.params.countryCode, $options: "i" },
+                     "stateDetails.stateCode"   :  { "$regex": req.params.stateCode, $options: "i" } ,
+                     "districtDetails.districtName":  { "$regex": req.params.districtName, $options: "i" } } 
     }            
     ]).sort({ "blockName": 1 })
             .exec()
             .then(data=>{
                 if(data.length>0){
+                  console.log(data)
                     var allData = data.map((x, i)=>{
                         return {
                             "_id"                 : x._id,
-                            "countryCode"         : x.countryCode,
-                            "countryName"         : x.countryName,  
-                            "stateCode"           : x.stateCode,
-                            "stateName"           : camelCase(x.stateName),
-                            "districtName"        : camelCase(x.districtName),
+                            "countryID"           : x.countryDetails[0]._id,
+                            "countryCode"         : x.countryDetails[0].countryCode,
+                            "countryName"         : x.countryDetails[0].countryName, 
+                            "stateID"             : x.stateDetails[0]._id, 
+                            "stateCode"           : x.stateDetails[0].stateCode,
+                            "stateName"           : camelCase(x.stateDetails[0].stateName),
+                            "districtID"          : x.districtDetails[0]._id,
+                            "districtName"        : camelCase(x.districtDetails[0].districtName),
                             "blockName"           : camelCase(x.blockName),
                         }
                         })
